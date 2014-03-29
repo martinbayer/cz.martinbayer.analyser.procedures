@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Procedures
+Bundle-SymbolicName: cz.martinbayer.analyser.procedures
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: cz.martinbayer.analyser.procedures.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: cz.martinbayer.e4.analyser,
+ org.osgi.framework;version="1.3.0"
+Bundle-ActivationPolicy: lazy
+Require-Bundle: cz.martinbayer.analyser;bundle-version="1.0.0",
+ cz.martinbayer.utils,
+ org.eclipse.e4.core.services
+Export-Package: cz.martinbayer.analyser.procedures,
+ cz.martinbayer.analyser.procedures.exception,
+ cz.martinbayer.analyser.procedures.model
