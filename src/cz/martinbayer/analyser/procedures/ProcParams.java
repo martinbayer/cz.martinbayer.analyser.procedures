@@ -1,9 +1,10 @@
 package cz.martinbayer.analyser.procedures;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /** Collection of possible parameters of the function */
-public class ProcParams {
+public class ProcParams implements Serializable {
 
 	private HashSet<Object> params = new HashSet<>();
 

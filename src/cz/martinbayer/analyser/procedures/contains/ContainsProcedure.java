@@ -1,6 +1,6 @@
 package cz.martinbayer.analyser.procedures.contains;
 
-import cz.martinbayer.analyser.procedures.EOperator;
+import cz.martinbayer.analyser.impl.ConcreteXMLog;
 import cz.martinbayer.analyser.procedures.IProcedure;
 import cz.martinbayer.analyser.procedures.ProcOperand;
 import cz.martinbayer.analyser.procedures.ProcOperators;
@@ -19,11 +19,15 @@ import cz.martinbayer.analyser.processors.model.XMLogData;
  * @author Martin
  * 
  */
-public class ContainsProcedure implements IProcedure {
+public class ContainsProcedure implements IProcedure<ConcreteXMLog> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1533234314299073408L;
 	private ProcParams procParams;
 	private Object selectedParam;
-	private XMLogData<IXMLog> data;
+	private XMLogData<ConcreteXMLog> data;
 	private boolean result;
 
 	public ContainsProcedure() {
@@ -32,8 +36,9 @@ public class ContainsProcedure implements IProcedure {
 
 	private void initializeParams() {
 		procParams = new ProcParams();
-		procParams.addParam(ELogLevel.WARN);
-		procParams.addParam(ELogLevel.ERROR);
+		for (ELogLevel level : ELogLevel.values()) {
+			procParams.addParam(level);
+		}
 	}
 
 	@Override
@@ -71,16 +76,13 @@ public class ContainsProcedure implements IProcedure {
 	}
 
 	@Override
-	public void setData(XMLogData<IXMLog> data) {
+	public void setData(XMLogData<ConcreteXMLog> data) {
 		this.data = data;
 	}
 
 	@Override
 	public ProcOperators getOperators() {
 		ProcOperators procOperators = new ProcOperators();
-		procOperators.addOperators(EOperator.BTW, EOperator.EQUALS,
-				EOperator.GT, EOperator.GTEQUAL, EOperator.LT,
-				EOperator.LTEQUAL);
 		// no operators are available
 		return procOperators;
 	}
@@ -97,12 +99,7 @@ public class ContainsProcedure implements IProcedure {
 
 	@Override
 	public ProcOperand getSelectableOperands() {
-		ProcOperand ops = new ProcOperand();
-		ops.addSelectableOperand("AHOJ");
-		ops.addSelectableOperand("HI");
-		ops.addSelectableOperand("BON JOUR");
-
-		return ops;
+		return null;
 	}
 
 	@Override

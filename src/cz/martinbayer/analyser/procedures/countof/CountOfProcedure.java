@@ -2,6 +2,7 @@ package cz.martinbayer.analyser.procedures.countof;
 
 import java.util.Date;
 
+import cz.martinbayer.analyser.impl.ConcreteXMLog;
 import cz.martinbayer.analyser.procedures.EOperator;
 import cz.martinbayer.analyser.procedures.IProcedure;
 import cz.martinbayer.analyser.procedures.ProcOperand;
@@ -22,13 +23,17 @@ import cz.martinbayer.analyser.processors.model.XMLogData;
  * @author Martin
  * 
  */
-public class CountOfProcedure implements IProcedure {
+public class CountOfProcedure implements IProcedure<ConcreteXMLog> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -560015766959239053L;
 	private ProcParams procParams;
 	private Object selectedParam;
 	private ProcOperators procOperators;
 	private EOperator selectedOperator;
-	private XMLogData<IXMLog> data;
+	private XMLogData<ConcreteXMLog> data;
 	private boolean result;
 	private TypeProcOperand<Integer> operand;
 
@@ -97,7 +102,7 @@ public class CountOfProcedure implements IProcedure {
 	}
 
 	@Override
-	public void setData(XMLogData<IXMLog> data) {
+	public void setData(XMLogData<ConcreteXMLog> data) {
 		this.data = data;
 	}
 

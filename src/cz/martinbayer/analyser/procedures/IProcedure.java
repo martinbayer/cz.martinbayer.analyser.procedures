@@ -1,12 +1,14 @@
 package cz.martinbayer.analyser.procedures;
 
+import java.io.Serializable;
+
 import cz.martinbayer.analyser.procedures.exception.ProcedureException;
 import cz.martinbayer.analyser.procedures.exception.UnsupportedOperandsException;
 import cz.martinbayer.analyser.procedures.exception.UnsupportedParamException;
 import cz.martinbayer.analyser.processors.model.IXMLog;
 import cz.martinbayer.analyser.processors.model.XMLogData;
 
-public interface IProcedure {
+public interface IProcedure<T extends IXMLog> extends Serializable {
 
 	String getName();
 
@@ -24,7 +26,7 @@ public interface IProcedure {
 	ProcParams getPossibleParameters();
 
 	/** Any parameter(s) can be used but data must be always configured */
-	void setData(XMLogData<IXMLog> data);
+	void setData(XMLogData<T> data);
 
 	/** Contains collection of applicable operators like <, >, EQUAL, LIKE... */
 	ProcOperators getOperators();

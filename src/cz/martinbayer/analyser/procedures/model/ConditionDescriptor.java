@@ -1,13 +1,17 @@
 package cz.martinbayer.analyser.procedures.model;
 
+import java.io.Serializable;
+
 import cz.martinbayer.analyser.procedures.EOperator;
 import cz.martinbayer.analyser.procedures.IProcedure;
 import cz.martinbayer.analyser.procedures.ProcOperand;
+import cz.martinbayer.analyser.procedures.exception.UnsupportedParamException;
 import cz.martinbayer.analyser.processors.model.IXMLog;
 import cz.martinbayer.analyser.processors.types.LogProcessor;
 import cz.martinbayer.utils.model.ObservableModelObject;
 
-public class ConditionDescriptor extends ObservableModelObject {
+public class ConditionDescriptor extends ObservableModelObject implements
+		Serializable {
 
 	public static final String ENABLED = "enabled";
 	public static final String SELECTED_PROCEDURE = "selectedProcedure";
@@ -62,8 +66,12 @@ public class ConditionDescriptor extends ObservableModelObject {
 		return selectedProcParam;
 	}
 
-	public final void setSelectedProcParam(Object selectedProcParam) {
+	public final void setSelectedProcParam(Object selectedProcParam)
+			throws UnsupportedParamException {
 		this.selectedProcParam = selectedProcParam;
+		if (selectedProcedure != null) {
+			selectedProcedure.setSelectedParams(selectedProcParam);
+		}
 	}
 
 	public final EOperator getSelectedProcOperator() {
@@ -92,5 +100,4 @@ public class ConditionDescriptor extends ObservableModelObject {
 		firePropertyChange(SELECTED_PROCESSOR, this.selectedProcessor,
 				this.selectedProcessor = selectedProcessor);
 	}
-
 }

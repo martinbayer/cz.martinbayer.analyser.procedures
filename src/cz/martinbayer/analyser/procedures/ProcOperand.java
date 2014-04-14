@@ -1,5 +1,6 @@
 package cz.martinbayer.analyser.procedures;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -12,7 +13,7 @@ import cz.martinbayer.analyser.procedures.exception.UnsupportedOperandsException
  * @author Martin
  * 
  */
-public class ProcOperand {
+public class ProcOperand implements Serializable {
 
 	/** first operand's index in array */
 	public static final int FIRST_OPERAND = 0;

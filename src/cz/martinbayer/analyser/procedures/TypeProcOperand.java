@@ -20,7 +20,8 @@ import cz.martinbayer.utils.StringUtils;
  * representation
  */
 public class TypeProcOperand<T extends Object> extends ProcOperand {
-	private Logger logger = LoggerFactory.getInstance(getClass());
+	private static Logger logger = LoggerFactory
+			.getInstance(TypeProcOperand.class);
 
 	private Class<T> operandType;
 
