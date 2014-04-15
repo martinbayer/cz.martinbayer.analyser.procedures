@@ -27,7 +27,7 @@ public class ContainsProcedure implements IProcedure<ConcreteXMLog> {
 	private static final long serialVersionUID = 1533234314299073408L;
 	private ProcParams procParams;
 	private Object selectedParam;
-	private XMLogData<ConcreteXMLog> data;
+	private transient XMLogData<ConcreteXMLog> data;
 	private boolean result;
 
 	public ContainsProcedure() {

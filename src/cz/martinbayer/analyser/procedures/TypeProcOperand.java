@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.eclipse.e4.core.services.log.Logger;
 
@@ -20,6 +21,19 @@ import cz.martinbayer.utils.StringUtils;
  * representation
  */
 public class TypeProcOperand<T extends Object> extends ProcOperand {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5249070588660483616L;
+
+	private static HashMap<Class<?>, Object> cachedEmptyObjects = new HashMap<>();
+	static {
+		cachedEmptyObjects.put(Integer.class, new Integer(0));
+		cachedEmptyObjects.put(Double.class, new Double(0));
+		cachedEmptyObjects.put(String.class, new String());
+		cachedEmptyObjects.put(Date.class, new Date());
+	}
+
 	private static Logger logger = LoggerFactory
 			.getInstance(TypeProcOperand.class);
 
@@ -38,15 +52,17 @@ public class TypeProcOperand<T extends Object> extends ProcOperand {
 	@Override
 	public T getValue(int position) throws UnsupportedOperandsException {
 		if (position < 0 || position > getSize() - 1) {
+			/* column which is not applicable for actual operator is updated */
 			throw new UnsupportedOperandsException(position, 0, getSize() - 1);
 		}
-		try {
-			return values[position] == null ? this.operandType.newInstance()
-					: (T) values[position];
-		} catch (InstantiationException | IllegalAccessException e) {
-			logger.error(e, "Unable to create new instance");
+		/* init values if there are some set to NULL */
+		for (int i = 0; i < values.length; i++) {
+			if (values[i] == null) {
+				values[i] = cachedEmptyObjects.get(this.operandType);
+			}
 		}
-		return null;
+		return (T) values[position];
+
 	}
 
 	@Override
@@ -55,7 +71,7 @@ public class TypeProcOperand<T extends Object> extends ProcOperand {
 		if (position < 0 || position > getSize() - 1) {
 			throw new UnsupportedOperandsException(position, 0, getSize() - 1);
 		}
-		this.values[position] = getFormattedValue(value);
+		this.values[position] = parse((String) value, position);
 	}
 
 	private Object getFormattedValue(Object value) {
@@ -69,7 +85,7 @@ public class TypeProcOperand<T extends Object> extends ProcOperand {
 		return operandType;
 	}
 
-	public boolean parse(String value, int position)
+	public Object parse(String value, int position)
 			throws UnsupportedOperandsException {
 		if (StringUtils.isEmtpy(value)) {
 			return false;
@@ -77,30 +93,26 @@ public class TypeProcOperand<T extends Object> extends ProcOperand {
 		try {
 			Object setValue = null;
 			if (this.operandType == Integer.class) {
-				setValue = Integer.parseInt(value);
+				return Integer.parseInt(value);
 			} else if (this.operandType == Double.class) {
-				setValue = Double.parseDouble(value);
+				return Double.parseDouble(value);
 			} else if (this.operandType == String.class) {
-				setValue = value;
+				return value;
 			} else if (this.operandType == Date.class) {
 				DateFormat df = new SimpleDateFormat(
 						DateUtils.DEFAULT_FORMAT_WITH_TIME);
-				setValue = df.parse(value);
+				return df.parse(value);
 			}
-			if (setValue != null) {
-				setValue(setValue, position);
-				return true;
-			}
+			// if (setValue != null) {
+			// setValue(setValue, position);
+			// return true;
+			// }
 
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
-	}
-
-	@Override
-	public int getSize() {
-		return values.length;
+		return null;
+		// return false;
 	}
 }

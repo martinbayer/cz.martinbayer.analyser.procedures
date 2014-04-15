@@ -1,9 +1,14 @@
 package cz.martinbayer.analyser.procedures;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
-public class ProcOperators {
+public class ProcOperators implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5171335479511214575L;
 	private HashSet<EOperator> operators = new HashSet<>();
 
 	public HashSet<EOperator> getOperators() {

@@ -17,9 +17,10 @@ class CountOfProcedureAlgorithm {
 			if (operand.getSize() != 2) {
 				throw new UnsupportedOperandsException(operand.getSize(), 2);
 			}
-			return operand.getValue(ProcOperand.FIRST_OPERAND) <= procedureResult
-					&& procedureResult <= operand
-							.getValue(ProcOperand.FIRST_OPERAND);
+			return (operand.getValue(ProcOperand.FIRST_OPERAND) <= procedureResult && procedureResult <= operand
+					.getValue(ProcOperand.SECOND_OPERAND))
+					|| (operand.getValue(ProcOperand.SECOND_OPERAND) <= procedureResult && procedureResult <= operand
+							.getValue(ProcOperand.FIRST_OPERAND));
 		default:
 			// check another options in next switch to check the arguments
 			// count;

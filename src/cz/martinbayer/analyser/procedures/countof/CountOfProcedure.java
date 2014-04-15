@@ -1,6 +1,6 @@
 package cz.martinbayer.analyser.procedures.countof;
 
-import java.util.Date;
+import org.eclipse.e4.core.services.log.Logger;
 
 import cz.martinbayer.analyser.impl.ConcreteXMLog;
 import cz.martinbayer.analyser.procedures.EOperator;
@@ -16,6 +16,7 @@ import cz.martinbayer.analyser.procedures.exception.UnsupportedParamException;
 import cz.martinbayer.analyser.processors.model.ELogLevel;
 import cz.martinbayer.analyser.processors.model.IXMLog;
 import cz.martinbayer.analyser.processors.model.XMLogData;
+import cz.martinbayer.e4.analyser.LoggerFactory;
 
 /**
  * This
@@ -24,7 +25,8 @@ import cz.martinbayer.analyser.processors.model.XMLogData;
  * 
  */
 public class CountOfProcedure implements IProcedure<ConcreteXMLog> {
-
+	private static Logger logger = LoggerFactory
+			.getInstance(CountOfProcedure.class);
 	/**
 	 * 
 	 */
@@ -33,7 +35,7 @@ public class CountOfProcedure implements IProcedure<ConcreteXMLog> {
 	private Object selectedParam;
 	private ProcOperators procOperators;
 	private EOperator selectedOperator;
-	private XMLogData<ConcreteXMLog> data;
+	private transient XMLogData<ConcreteXMLog> data;
 	private boolean result;
 	private TypeProcOperand<Integer> operand;
 
@@ -53,6 +55,7 @@ public class CountOfProcedure implements IProcedure<ConcreteXMLog> {
 		procParams = new ProcParams();
 		procParams.addParam(ELogLevel.DEBUG);
 		procParams.addParam(ELogLevel.WARN);
+		procParams.addParam(ELogLevel.FATAL);
 		procParams.addParam(ELogLevel.ERROR);
 		procParams.addParam(ELogLevel.TRACE);
 		procParams.addParam(ELogLevel.INFO);
@@ -113,19 +116,24 @@ public class CountOfProcedure implements IProcedure<ConcreteXMLog> {
 
 	@Override
 	public void setSelectedOperator(Object operator) {
-		if (!procOperators.getOperators().contains(operator))
+		if (procOperators.getOperators().contains(operator)) {
 			this.selectedOperator = (EOperator) operator;
+		} else {
+			logger.error("Invalid operator used [{}]", operator);
+		}
 	}
 
 	@Override
 	public ProcOperand getSelectableOperands() {
-		return TypeProcOperand.getInstance(Date.class);
+		return TypeProcOperand.getInstance(Integer.class);
 	}
 
 	@Override
 	public void setOperandsValues(ProcOperand operands)
 			throws UnsupportedOperandsException {
-		if (this.selectedOperator.getOperandsCount() != operands.getSize()) {
+		if (operands != null
+				&& this.selectedOperator.getOperandsCount() != operands
+						.getSize()) {
 			throw new UnsupportedOperandsException(operands.getSize(),
 					this.selectedOperator.getOperandsCount());
 		}
