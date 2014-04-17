@@ -5,10 +5,10 @@ import java.io.Serializable;
 import cz.martinbayer.analyser.procedures.exception.ProcedureException;
 import cz.martinbayer.analyser.procedures.exception.UnsupportedOperandsException;
 import cz.martinbayer.analyser.procedures.exception.UnsupportedParamException;
-import cz.martinbayer.analyser.processors.model.IXMLog;
-import cz.martinbayer.analyser.processors.model.XMLogData;
+import cz.martinbayer.analyser.processors.model.IE4LogsisLog;
+import cz.martinbayer.analyser.processors.model.E4LogsisLogData;
 
-public interface IProcedure<T extends IXMLog> extends Serializable {
+public interface IProcedure<T extends IE4LogsisLog> extends Serializable {
 
 	String getName();
 
@@ -26,7 +26,7 @@ public interface IProcedure<T extends IXMLog> extends Serializable {
 	ProcParams getPossibleParameters();
 
 	/** Any parameter(s) can be used but data must be always configured */
-	void setData(XMLogData<T> data);
+	void setData(E4LogsisLogData<T> data);
 
 	/** Contains collection of applicable operators like <, >, EQUAL, LIKE... */
 	ProcOperators getOperators();

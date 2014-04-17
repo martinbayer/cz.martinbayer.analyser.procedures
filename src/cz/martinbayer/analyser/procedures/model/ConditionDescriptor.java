@@ -9,12 +9,12 @@ import cz.martinbayer.analyser.procedures.IProcedure;
 import cz.martinbayer.analyser.procedures.ProcOperand;
 import cz.martinbayer.analyser.procedures.exception.UnsupportedOperandsException;
 import cz.martinbayer.analyser.procedures.exception.UnsupportedParamException;
-import cz.martinbayer.analyser.processors.model.IXMLog;
+import cz.martinbayer.analyser.processors.model.IE4LogsisLog;
 import cz.martinbayer.analyser.processors.types.LogProcessor;
 import cz.martinbayer.e4.analyser.LoggerFactory;
 import cz.martinbayer.utils.model.ObservableModelObject;
 
-public class ConditionDescriptor<T extends IXMLog> extends
+public class ConditionDescriptor<T extends IE4LogsisLog> extends
 		ObservableModelObject implements Serializable {
 
 	/**

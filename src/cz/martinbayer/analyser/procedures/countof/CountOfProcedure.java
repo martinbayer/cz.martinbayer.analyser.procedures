@@ -2,7 +2,7 @@ package cz.martinbayer.analyser.procedures.countof;
 
 import org.eclipse.e4.core.services.log.Logger;
 
-import cz.martinbayer.analyser.impl.ConcreteXMLog;
+import cz.martinbayer.analyser.impl.ConcreteE4LogsisLog;
 import cz.martinbayer.analyser.procedures.EOperator;
 import cz.martinbayer.analyser.procedures.IProcedure;
 import cz.martinbayer.analyser.procedures.ProcOperand;
@@ -14,8 +14,8 @@ import cz.martinbayer.analyser.procedures.exception.UnsupportedOperandsException
 import cz.martinbayer.analyser.procedures.exception.UnsupportedOperatorException;
 import cz.martinbayer.analyser.procedures.exception.UnsupportedParamException;
 import cz.martinbayer.analyser.processors.model.ELogLevel;
-import cz.martinbayer.analyser.processors.model.IXMLog;
-import cz.martinbayer.analyser.processors.model.XMLogData;
+import cz.martinbayer.analyser.processors.model.IE4LogsisLog;
+import cz.martinbayer.analyser.processors.model.E4LogsisLogData;
 import cz.martinbayer.e4.analyser.LoggerFactory;
 
 /**
@@ -24,7 +24,7 @@ import cz.martinbayer.e4.analyser.LoggerFactory;
  * @author Martin
  * 
  */
-public class CountOfProcedure implements IProcedure<ConcreteXMLog> {
+public class CountOfProcedure implements IProcedure<ConcreteE4LogsisLog> {
 	private static Logger logger = LoggerFactory
 			.getInstance(CountOfProcedure.class);
 	/**
@@ -35,7 +35,7 @@ public class CountOfProcedure implements IProcedure<ConcreteXMLog> {
 	private Object selectedParam;
 	private ProcOperators procOperators;
 	private EOperator selectedOperator;
-	private transient XMLogData<ConcreteXMLog> data;
+	private transient E4LogsisLogData<ConcreteE4LogsisLog> data;
 	private boolean result;
 	private TypeProcOperand<Integer> operand;
 
@@ -81,7 +81,7 @@ public class CountOfProcedure implements IProcedure<ConcreteXMLog> {
 					this.selectedOperator.getOperandsCount());
 		}
 		int procedureResult = 0;
-		for (IXMLog dataRow : this.data.getLogRecords()) {
+		for (IE4LogsisLog dataRow : this.data.getLogRecords()) {
 			if (this.selectedParam.equals(dataRow.getLogLevel())) {
 				procedureResult++;
 			}
@@ -105,7 +105,7 @@ public class CountOfProcedure implements IProcedure<ConcreteXMLog> {
 	}
 
 	@Override
-	public void setData(XMLogData<ConcreteXMLog> data) {
+	public void setData(E4LogsisLogData<ConcreteE4LogsisLog> data) {
 		this.data = data;
 	}
 
