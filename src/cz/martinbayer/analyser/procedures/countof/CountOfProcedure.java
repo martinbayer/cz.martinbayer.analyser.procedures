@@ -13,9 +13,9 @@ import cz.martinbayer.analyser.procedures.exception.ProcedureException;
 import cz.martinbayer.analyser.procedures.exception.UnsupportedOperandsException;
 import cz.martinbayer.analyser.procedures.exception.UnsupportedOperatorException;
 import cz.martinbayer.analyser.procedures.exception.UnsupportedParamException;
+import cz.martinbayer.analyser.processors.model.E4LogsisLogData;
 import cz.martinbayer.analyser.processors.model.ELogLevel;
 import cz.martinbayer.analyser.processors.model.IE4LogsisLog;
-import cz.martinbayer.analyser.processors.model.E4LogsisLogData;
 import cz.martinbayer.e4.analyser.LoggerFactory;
 
 /**
@@ -59,6 +59,7 @@ public class CountOfProcedure implements IProcedure<ConcreteE4LogsisLog> {
 		procParams.addParam(ELogLevel.ERROR);
 		procParams.addParam(ELogLevel.TRACE);
 		procParams.addParam(ELogLevel.INFO);
+		procParams.addParam(ELogLevel.ALL);
 	}
 
 	@Override
@@ -82,7 +83,8 @@ public class CountOfProcedure implements IProcedure<ConcreteE4LogsisLog> {
 		}
 		int procedureResult = 0;
 		for (IE4LogsisLog dataRow : this.data.getLogRecords()) {
-			if (this.selectedParam.equals(dataRow.getLogLevel())) {
+			if (this.selectedParam.equals(dataRow.getLogLevel())
+					|| this.selectedParam == ELogLevel.ALL) {
 				procedureResult++;
 			}
 		}
@@ -143,5 +145,10 @@ public class CountOfProcedure implements IProcedure<ConcreteE4LogsisLog> {
 	@Override
 	public String getName() {
 		return "countOf";
+	}
+
+	@Override
+	public IProcedure<ConcreteE4LogsisLog> getNewInstance() {
+		return new CountOfProcedure();
 	}
 }

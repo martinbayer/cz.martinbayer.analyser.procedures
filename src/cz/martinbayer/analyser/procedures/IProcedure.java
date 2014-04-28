@@ -5,8 +5,8 @@ import java.io.Serializable;
 import cz.martinbayer.analyser.procedures.exception.ProcedureException;
 import cz.martinbayer.analyser.procedures.exception.UnsupportedOperandsException;
 import cz.martinbayer.analyser.procedures.exception.UnsupportedParamException;
-import cz.martinbayer.analyser.processors.model.IE4LogsisLog;
 import cz.martinbayer.analyser.processors.model.E4LogsisLogData;
+import cz.martinbayer.analyser.processors.model.IE4LogsisLog;
 
 public interface IProcedure<T extends IE4LogsisLog> extends Serializable {
 
@@ -41,4 +41,11 @@ public interface IProcedure<T extends IE4LogsisLog> extends Serializable {
 
 	void setOperandsValues(ProcOperand operands)
 			throws UnsupportedOperandsException;
+
+	/**
+	 * Create new instance of the procedure
+	 * 
+	 * @return
+	 */
+	IProcedure<T> getNewInstance();
 }

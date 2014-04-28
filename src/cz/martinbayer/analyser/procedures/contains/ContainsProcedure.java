@@ -9,9 +9,9 @@ import cz.martinbayer.analyser.procedures.exception.ProcedureException;
 import cz.martinbayer.analyser.procedures.exception.UnsupportedOperandsException;
 import cz.martinbayer.analyser.procedures.exception.UnsupportedOperatorException;
 import cz.martinbayer.analyser.procedures.exception.UnsupportedParamException;
+import cz.martinbayer.analyser.processors.model.E4LogsisLogData;
 import cz.martinbayer.analyser.processors.model.ELogLevel;
 import cz.martinbayer.analyser.processors.model.IE4LogsisLog;
-import cz.martinbayer.analyser.processors.model.E4LogsisLogData;
 
 /**
  * This
@@ -53,7 +53,8 @@ public class ContainsProcedure implements IProcedure<ConcreteE4LogsisLog> {
 		}
 		int procedureResult = 0;
 		for (IE4LogsisLog dataRow : this.data.getLogRecords()) {
-			if (this.selectedParam.equals(dataRow.getLogLevel())) {
+			if (this.selectedParam.equals(ELogLevel.ALL)
+					|| this.selectedParam.equals(dataRow.getLogLevel())) {
 				procedureResult++;
 			}
 		}
@@ -111,5 +112,10 @@ public class ContainsProcedure implements IProcedure<ConcreteE4LogsisLog> {
 	@Override
 	public String getName() {
 		return "contains";
+	}
+
+	@Override
+	public IProcedure<ConcreteE4LogsisLog> getNewInstance() {
+		return new ContainsProcedure();
 	}
 }
